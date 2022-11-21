@@ -34,25 +34,26 @@ namespace EllipticCurve {
 
             BigInteger inv = EcdsaMath.inv(sigS, curve.N);
 
+
             Point u1 = EcdsaMath.multiply(
                 curve.G,
                 Utils.Integer.modulo((numberMessage * inv), curve.N),
-                curve.N,
-                curve.A,
-                curve.P
+                curve.N, //: N: Order of the elliptic curve
+                curve.A, //:A: Coefficient of the first-order term of the equation Y ^ 2 = X ^ 3 + A * X + B(mod p)
+                curve.P // :P: Prime number in the module of the equation Y^2 = X ^ 3 + A * X + B(mod p)
             );
             Point u2 = EcdsaMath.multiply(
                 publicKey.point,
                 Utils.Integer.modulo((sigR * inv), curve.N),
-                curve.N,
-                curve.A,
-                curve.P
+                curve.N,  //: N: Order of the elliptic curve
+                curve.A, //:A: Coefficient of the first-order term of the equation Y ^ 2 = X ^ 3 + A * X + B(mod p)
+                curve.P // :P: Prime number in the module of the equation Y^2 = X ^ 3 + A * X + B(mod p)
             );
             Point v = EcdsaMath.add(
                 u1,
                 u2,
-                curve.A,
-                curve.P
+                curve.A, //:A: Coefficient of the first-order term of the equation Y ^ 2 = X ^ 3 + A * X + B(mod p)
+                curve.P // :P: Prime number in the module of the equation Y^2 = X ^ 3 + A * X + B(mod p)
             );
             if (v.isAtInfinity()) {
                 return false;
